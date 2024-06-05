@@ -1,0 +1,89 @@
+---
+title: Workflows
+category: Rules
+date: '2023-07-11'
+order: 2
+---
+
+## How to develop with BDS
+
+Developers often get confused about whether they need to use system components or not when they have a newly delivered design file.
+
+## Should I use BDS components?
+
+Purple layer are components in Figma. Right click
+
+![purple-layer](/images/how-to-develop-with-bds/purple-layer.png)
+![gray-layer](/images/how-to-develop-with-bds/gray-layer.png)
+
+## New BDS Components
+
+- Added in the Global Design Guide (Figma)
+
+- Notify devs for developing it (It could also be FEs on the running project & JS or me / Devs only need to know where they should put their new component files packages/bds/src/index.ts)w
+
+### Design - Develop - Confirmation
+
+Each "View" has both of them in design file and codes.
+
+- Graphics
+- Properties ([in Figma](https://help.figma.com/hc/en-us/articles/5579474826519-Explore-component-properties), [in Framer](https://www.framer.com/learn/component-variables/))
+
+They should be moved correctly without changes from the design. So after moving the design as codes, it need to be reviewed by designers.
+
+Therefore, when developers need to add a new "View", please add a subtask to the ticket below using its name. Each subtask should be reviewed and confirmed with a "Complete" status by the assigned designers.
+
+https://app.clickup.com/t/6912544/NO-25519
+
+### For Developers
+
+- If there is something that needs to be added oto compoennts, developers should first communicate with designers, and the changes should be applied to the design files before it is implementes as codes.
+- Developers should use the `design-system` branch of the payroller repository to add, modify, maintain all changes for the `@bookipi/bds` package.
+
+## Update BDS Components
+
+- Updated in the same Global Design Guide file.
+- JS or I can update & publish it
+- other products can pull down those changes.
+
+## Replacing (or Migrating) existing components with BDS Components:
+
+- Sometimes developed versions of components can be discussed as new BDS components.
+
+- In this case, we need to manually replace or migrate the developed version of components with new components from (1)
+
+- But I also think these decisions are better if it is started from designers → developers (not bidirectionally).
+
+## Framer Handshake
+
+<Badge badgeText="Deprecated" color="yellow" showIcon={false} showCloseIcon={false} />
+
+Framer has a cool feature called "[Handshake](https://www.framer.com/learn/handshake/)" which allows for seamless synchronization between design and development without manual hassles.
+
+### Used Examples
+
+1. Framer (Design + Local UI States)
+
+   _e.g.) Toggle, Button, Link_
+
+   This feature converts designs into React code. To use it effectively, proper bundler configurations are needed on the application side.
+
+2. Framer (Design + Local UI States) + Code Components (ESM shared locally & Framer canvas)
+
+   _e.g.) Plus components, Add Employee Modal (EEC), Refer a Friend_
+
+   Sometimes, we may need to add custom UI states or controls. Fortunately, Framer directly supports React code with ES Module support. These custom code components can be built locally and linked to the Framer Canvas.
+
+   We also discussed the possibility of using only the Framer Code editor, but that approach makes it difficult to share code locally. Therefore, all code within Framer is built and published to our ESM server and then consumed in the Framer Canvas.
+
+   **To update these ESM**, switch to the `framer-s3` branch and run the command `yarn workspace @payroller/pds framer:build && yarn workspace @payroller/pds framer:deploy`.
+
+3. Updating ES Modules (HTTP modules)
+
+   To update the ES Modules, run the `yarn workspace @payroller/pds module:upgrad` command and then restart dev server (`yarn dev`).
+
+### Tips
+
+    - To preview shared ES modules (Code Components), use the `apps/frontend/src/scheduling/components/Modal/Inners/Test.js`, or using the Framer Canvas ([PDS +](https://framer.com/projects/PDS-Payroller-Design-System-Plus--f25oQUGzRDSM4rFzw3DL))
+
+    - Duplicate Framer file, if you are not confident enough to edit details. (and do everything on the duplicated ones!)
